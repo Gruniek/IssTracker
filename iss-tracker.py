@@ -20,6 +20,9 @@ radius = 4000
 LAT_HOME = ''  # in dec : exemple : 20.610353 
 LONG_HOME = '' # in dec : exemple : 20.610353
 
+# Update interval
+interval = 9
+
 ##############################################################################
 
 
@@ -147,6 +150,6 @@ if __name__ == "__main__":
 	    triggered = 0
 	    emailsend = 0
 
-        print(int(dist/1000), ' km')
+        print(int(dist/1000))
 
-        time.sleep(9)
+        time.sleep(interval)
