@@ -106,8 +106,8 @@ def distanceGPS(latA, longA, latB, longB):
 #############################################################################
 if __name__ == "__main__":
     while True:
-        latA = deg2rad(LAT_HOME) 
-        longA = deg2rad(LONG_HOME) 
+        latA = deg2rad(float(LAT_HOME))
+        longA = deg2rad(float(LONG_HOME)) 
 
 	req = urllib2.Request("http://api.open-notify.org/iss-now.json")
 	response = urllib2.urlopen(req)
