@@ -14,7 +14,7 @@ gmail_send_email_to = 'Email1'
 gmail_send_email_to_2 = 'Email2'
 
 # Distance trigger (Km)
-ring = 4000
+radius = 4000
 
 # GPS LOCATION
 LAT_HOME = ''  # in dec : exemple : 20.610353 
@@ -123,7 +123,7 @@ if __name__ == "__main__":
         dist = distanceGPS(latA, longA, latB, longB)
 	print("---")
 
-	if int(dist/1000) < ring:
+	if int(dist/1000) < radius:
 	    print("YES")
 	    triggered = 1
 	    if emailsend == 0:
@@ -147,6 +147,6 @@ if __name__ == "__main__":
 	    triggered = 0
 	    emailsend = 0
 
-        print(int(dist/1000))
+        print(int(dist/1000), ' km')
 
         time.sleep(9)
