@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+# GPS CODE SOURCE = https://www.developpez.net/forums/d1868942/autres-langages/python/contribuez/distance-entre-2-lieux-connus-leurs-coordonnees-gps/#post11657860
+
 ##############################################################################
 #  CONFIG                                                                    #
 ##############################################################################
