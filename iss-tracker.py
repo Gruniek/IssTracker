@@ -63,18 +63,6 @@ Subject: %s
 """ % (sent_from, ", ".join(to), subject, body)
 
 
-#req = urllib2.Request("http://api.open-notify.org/iss-now.json")
-#response = urllib2.urlopen(req)
-#obj = json.loads(response.read())
-
-#print obj['timestamp']
-#print obj['iss_position']['latitude'], obj['iss_position']['longitude']
-#latbb = obj['iss_position']['latitude']
-#lonbb = obj['iss_position']['longitude']
-
-
-
-
 #############################################################################
 def dms2dd(d, m, s):
     """Convertit un angle "degrÃ©s minutes secondes" en "degrÃ©s dÃ©cimaux"
@@ -118,11 +106,8 @@ def distanceGPS(latA, longA, latB, longB):
 #############################################################################
 if __name__ == "__main__":
     while True:
-    # cooordonnÃ©es GPS en radians du 1er point (ici, mairie de Tours)
         latA = deg2rad(LAT_HOME) 
         longA = deg2rad(LONG_HOME) 
-
-    # cooordonnÃ©es GPS en radians du 2Ã¨me point (ici, mairie de Limoges)
 
 	req = urllib2.Request("http://api.open-notify.org/iss-now.json")
 	response = urllib2.urlopen(req)
@@ -131,13 +116,9 @@ if __name__ == "__main__":
 
         latB = deg2rad(float(obj['iss_position']['latitude'])) # Nord
         longB = deg2rad(float(obj['iss_position']['longitude'])) # Est
-#    latB = deg2rad(-49.0279)
- #   longB = deg2rad(108.0593)
 
         dist = distanceGPS(latA, longA, latB, longB)
 	print("---")
-
-
 
 	if int(dist/1000) < ring:
 	    print("YES")
@@ -164,6 +145,5 @@ if __name__ == "__main__":
 	    emailsend = 0
 
         print(int(dist/1000))
-#	print(emailsend)
 
         time.sleep(9)
