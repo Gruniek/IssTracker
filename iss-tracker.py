@@ -1,6 +1,28 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+##############################################################################
+#  CONFIG                                                                    #
+##############################################################################
+# Server Email
+gmail_server = 'smtp.gmail.com'
+gmail_user = 'EMAIL_SENDER'
+gmail_password = '*******'
+
+# EMail of the client
+gmail_send_email_to = 'Email1'
+gmail_send_email_to_2 = 'Email2'
+
+# Distance trigger (Km)
+ring = 4000
+
+# GPS LOCATION
+LAT_HOME = ''  # in dec : exemple : 20.610353 
+LONG_HOME = '' # in dec : exemple : 20.610353
+
+##############################################################################
+
+
 """
 Source pour le calcul:
 https://geodesie.ign.fr/contenu/fichiers/Distance_longitude_latitude.pdf
@@ -24,26 +46,7 @@ import wave
 import sys
 import smtplib
 
-##############################################################################
-#  CONFIG                                                                    #
-##############################################################################
-# Server Email
-gmail_server = 'smtp.gmail.com'
-gmail_user = 'EMAIL_SENDER'
-gmail_password = '*******'
 
-# EMail of the client
-gmail_send_email_to = 'Email1'
-gmail_send_email_to_2 = 'Email2'
-
-# Distance trigger (Km)
-ring = 4000
-
-# GPS LOCATION
-LAT_HOME = ''  # in dec : exemple : 20.610353 
-LONG_HOME = '' # in dec : exemple : 20.610353
-
-##############################################################################
 
 triggered = 0
 emailsend = 0
