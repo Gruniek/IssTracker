@@ -1,0 +1,169 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+"""
+Source pour le calcul:
+https://geodesie.ign.fr/contenu/fichiers/Distance_longitude_latitude.pdf
+
+sudo apt-get install python-matplotlib
+https://stackoverflow.com/questions/18625085/how-to-plot-a-wav-file
+sudo pip3 install utils xsmtplib
+
+"""
+
+from math import sin, cos, acos, pi
+import urllib2
+import json
+import time
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import matplotlib.pyplot as plt
+import numpy as np
+import wave
+import sys
+import smtplib
+
+##############################################################################
+#  CONFIG                                                                    #
+##############################################################################
+# Server Email
+gmail_server = 'smtp.gmail.com'
+gmail_user = 'EMAIL_SENDER'
+gmail_password = '*******'
+
+# EMail of the client
+gmail_send_email_to = 'Email1'
+gmail_send_email_to_2 = 'Email2'
+
+# Distance trigger (Km)
+ring = 4000
+
+# GPS LOCATION
+LAT_HOME = ''  # in dec : exemple : 20.610353 
+LONG_HOME = '' # in dec : exemple : 20.610353
+
+##############################################################################
+
+triggered = 0
+emailsend = 0
+
+
+sent_from = gmail_user
+to = [gmail_send_email_to, gmail_send_email_to_2]
+subject = 'ISS arrive !'
+body = ' '
+
+email_text = """\
+From: %s
+To: %s
+Subject: %s
+
+%s
+""" % (sent_from, ", ".join(to), subject, body)
+
+
+#req = urllib2.Request("http://api.open-notify.org/iss-now.json")
+#response = urllib2.urlopen(req)
+#obj = json.loads(response.read())
+
+#print obj['timestamp']
+#print obj['iss_position']['latitude'], obj['iss_position']['longitude']
+#latbb = obj['iss_position']['latitude']
+#lonbb = obj['iss_position']['longitude']
+
+
+
+
+#############################################################################
+def dms2dd(d, m, s):
+    """Convertit un angle "degrÃ©s minutes secondes" en "degrÃ©s dÃ©cimaux"
+    """
+    return d + m/60 + s/3600
+
+#############################################################################
+def dd2dms(dd):
+    """Convertit un angle "degrÃ©s dÃ©cimaux" en "degrÃ©s minutes secondes"
+    """
+    d = int(dd)
+    x = (dd-d)*60
+    m = int(x)
+    s = (x-m)*60
+    return d, m, s
+
+#############################################################################
+def deg2rad(dd):
+    """Convertit un angle "degrÃ©s dÃ©cimaux" en "radians"
+    """
+    return dd/180*pi
+
+#############################################################################
+def rad2deg(rd):
+    """Convertit un angle "radians" en "degrÃ©s dÃ©cimaux"
+    """
+    return rd/pi*180
+
+#############################################################################
+def distanceGPS(latA, longA, latB, longB):
+    """Retourne la distance en mÃ¨tres entre les 2 points A et B connus grÃ¢ce Ã 
+       leurs coordonnÃ©es GPS (en radians).
+    """
+    # Rayon de la terre en mÃ¨tres (sphÃ¨re IAG-GRS80)
+    RT = 6378137
+    # angle en radians entre les 2 points
+    S = acos(sin(latA)*sin(latB) + cos(latA)*cos(latB)*cos(abs(longB-longA)))
+    # distance entre les 2 points, comptÃ©e sur un arc de grand cercle
+    return S*RT
+
+#############################################################################
+if __name__ == "__main__":
+    while True:
+    # cooordonnÃ©es GPS en radians du 1er point (ici, mairie de Tours)
+        latA = deg2rad(LAT_HOME) 
+        longA = deg2rad(LONG_HOME) 
+
+    # cooordonnÃ©es GPS en radians du 2Ã¨me point (ici, mairie de Limoges)
+
+	req = urllib2.Request("http://api.open-notify.org/iss-now.json")
+	response = urllib2.urlopen(req)
+
+	obj = json.loads(response.read())
+
+        latB = deg2rad(float(obj['iss_position']['latitude'])) # Nord
+        longB = deg2rad(float(obj['iss_position']['longitude'])) # Est
+#    latB = deg2rad(-49.0279)
+ #   longB = deg2rad(108.0593)
+
+        dist = distanceGPS(latA, longA, latB, longB)
+	print("---")
+
+
+
+	if int(dist/1000) < ring:
+	    print("YES")
+	    triggered = 1
+	    if emailsend == 0:
+		print("SEND EMAIL...")
+
+
+	        try:
+    		    server = smtplib.SMTP_SSL(gmail_server, 465)
+    		    server.ehlo()
+    		    server.login(gmail_user, gmail_password)
+    		    server.sendmail(sent_from, to, email_text)
+    		    server.close()
+
+    	 	    print 'Email sent!'
+	        except:
+    		    print 'Something went wrong...'
+
+		emailsend = 1
+	else:
+	    print("NO")
+	    triggered = 0
+	    emailsend = 0
+
+        print(int(dist/1000))
+#	print(emailsend)
+
+        time.sleep(9)
