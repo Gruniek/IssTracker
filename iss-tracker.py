@@ -148,5 +148,5 @@ if __name__ == "__main__":
 	    triggered = 0
 	    emailsend = 0
         dist = dist/1000
-        print dist 'km'
+        print dist+'km'
         time.sleep(float(interval))
