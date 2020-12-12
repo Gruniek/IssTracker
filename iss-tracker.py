@@ -49,14 +49,13 @@ LONG_HOME = config.get('GPS', 'LONGITUDE')
 
 interval = config.get('OTHER', 'UPDATE_INTERVAL')
 
-
 triggered = 0
 emailsend = 0
 
 
 sent_from = gmail_user
 to = [gmail_send_email_to, gmail_send_email_to_2]
-subject = gmail_title
+subject = 'ISS arrive !'
 body = ' '
 
 email_text = """\
@@ -66,6 +65,19 @@ Subject: %s
 
 %s
 """ % (sent_from, ", ".join(to), subject, body)
+
+
+#req = urllib2.Request("http://api.open-notify.org/iss-now.json")
+#response = urllib2.urlopen(req)
+#obj = json.loads(response.read())
+
+#print obj['timestamp']
+#print obj['iss_position']['latitude'], obj['iss_position']['longitude']
+#latbb = obj['iss_position']['latitude']
+#lonbb = obj['iss_position']['longitude']
+
+
+
 
 #############################################################################
 def dms2dd(d, m, s):
@@ -123,7 +135,8 @@ if __name__ == "__main__":
 
         latB = deg2rad(float(obj['iss_position']['latitude'])) # Nord
         longB = deg2rad(float(obj['iss_position']['longitude'])) # Est
-
+#    latB = deg2rad(-49.0279)
+ #   longB = deg2rad(108.0593)
 
         dist = distanceGPS(latA, longA, latB, longB)
 	print("---")
@@ -134,25 +147,24 @@ if __name__ == "__main__":
 	    print("YES")
 	    triggered = 1
 	    if emailsend == 0:
-		if gmail_ifsend == 1:
-		    print("SEND EMAIL")
-	            try:
-    		        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    		        server.ehlo()
-    		        server.login(gmail_user, gmail_password)
-    		        server.sendmail(sent_from, to, email_text)
-    		        server.close()
+		print("SEND EMAIL")
 
-    	 	        print 'Email sent!'
-	            except:
-    		        print 'Something went wrong...'
+	        try:
+    		    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    		    server.ehlo()
+    		    server.login(gmail_user, gmail_password)
+    		    server.sendmail(sent_from, to, email_text)
+    		    server.close()
 
-		    emailsend = 1
+    	 	    print 'Email sent!'
+	        except:
+    		    print 'Something went wrong...'
+
+		emailsend = 1
 	else:
-	    print("NO")
+	    print("NON")
 	    triggered = 0
 	    emailsend = 0
 
         print(int(dist/1000))
-
         time.sleep(float(interval))
