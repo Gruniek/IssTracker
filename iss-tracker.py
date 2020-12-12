@@ -29,8 +29,6 @@ import wave
 import sys
 import smtplib
 
-
-
 config = ConfigParser.ConfigParser()
 config.readfp(open(r'config.ini'))
 
@@ -135,7 +133,7 @@ if __name__ == "__main__":
 		if float(gmail_ifsend) == 1:
 		    print("SEND EMAIL")
 	            try:
-    		        server = smtplib.SMTP_SSL(gmail_password, '465')
+    		        server = smtplib.SMTP_SSL(gmail_password, gmail_port)
     		        server.ehlo()
     		        server.login(gmail_user, gmail_password)
     		        server.sendmail(sent_from, to, email_text)
@@ -150,5 +148,5 @@ if __name__ == "__main__":
 	    triggered = 0
 	    emailsend = 0
 
-        print(int(dist/1000))
+        print(int(dist/1000)) + "km"
         time.sleep(float(interval))
