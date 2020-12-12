@@ -152,4 +152,4 @@ if __name__ == "__main__":
 
         print(int(dist/1000))
 
-        time.sleep(interval)
+        time.sleep(float(interval))
