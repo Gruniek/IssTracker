@@ -36,6 +36,7 @@ config.readfp(open(r'config.ini'))
 
 gmail_ifsend = config.get('EMAIL', 'EMAIL_SEND')
 gmail_server = config.get('EMAIL', 'EMAIL_SERVER')
+gmail_port = config.get('EMAIL', 'EMAIL_PORT')
 gmail_user = config.get('EMAIL', 'EMAIL_USER')
 gmail_password = config.get('EMAIL', 'EMAIL_PASSWORD')
 gmail_send_email_to = config.get('EMAIL', 'EMAIL_1')
@@ -139,7 +140,7 @@ if __name__ == "__main__":
 		print("SEND EMAIL")
 
 	        try:
-    		    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    		    server = smtplib.SMTP_SSL(gmail_password, gmail_port)
     		    server.ehlo()
     		    server.login(gmail_user, gmail_password)
     		    server.sendmail(sent_from, to, email_text)
