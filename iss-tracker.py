@@ -129,7 +129,7 @@ if __name__ == "__main__":
 	    print("YES")
 	    triggered = 1
 	    if emailsend == 0:
-		if gmail_ifsend == 1
+		if gmail_ifsend == 1:
 		    print("SEND EMAIL...")
 
 
