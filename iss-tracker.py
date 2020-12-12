@@ -147,7 +147,7 @@ if __name__ == "__main__":
     	 	        print 'Email sent!'
 	            except:
     		        print 'Something went wrong...'
-		   emailsend = 1
+		    emailsend = 1
 	else:
 	    print("NO")
 	    triggered = 0
