@@ -135,7 +135,7 @@ if __name__ == "__main__":
 		if float(gmail_ifsend) == 1:
 		    print("SEND EMAIL")
 	            try:
-    		        server = smtplib.SMTP_SSL(gmail_password, gmail_port)
+    		        server = smtplib.SMTP_SSL(gmail_password, '465')
     		        server.ehlo()
     		        server.login(gmail_user, gmail_password)
     		        server.sendmail(sent_from, to, email_text)
