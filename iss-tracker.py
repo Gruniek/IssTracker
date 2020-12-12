@@ -107,6 +107,9 @@ def distanceGPS(latA, longA, latB, longB):
     return S*RT
 
 #############################################################################
+# LOOP
+#############################################################################
+
 if __name__ == "__main__":
     while True:
         latA = deg2rad(float(LAT_HOME)) # Nord
