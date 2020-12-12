@@ -130,9 +130,8 @@ if __name__ == "__main__":
         dist = distanceGPS(latA, longA, latB, longB)
 	print("---")
 
-        print(radius)
 
-	if int(dist/1000) < radius:
+	if int(dist/1000) < float(radius):
 	    print("YES")
 	    triggered = 1
 	    if emailsend == 1:
