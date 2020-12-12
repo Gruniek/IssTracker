@@ -50,15 +50,13 @@ LONG_HOME = config.get('GPS', 'LONGITUDE')
 interval = config.get('OTHER', 'UPDATE_INTERVAL')
 
 
-
-
 triggered = 0
 emailsend = 0
 
 
 sent_from = gmail_user
 to = [gmail_send_email_to, gmail_send_email_to_2]
-subject = 'ISS arrive !'
+subject = gmail_title
 body = ' '
 
 email_text = """\
@@ -68,7 +66,6 @@ Subject: %s
 
 %s
 """ % (sent_from, ", ".join(to), subject, body)
-
 
 #############################################################################
 def dms2dd(d, m, s):
@@ -113,8 +110,11 @@ def distanceGPS(latA, longA, latB, longB):
 #############################################################################
 if __name__ == "__main__":
     while True:
-        latA = deg2rad(float(LAT_HOME))
-        longA = deg2rad(float(LONG_HOME)) 
+    # cooordonnÃ©es GPS en radians du 1er point (ici, mairie de Tours)
+        latA = deg2rad(50.610353) # Nord
+        longA = deg2rad(3.880730) # Est
+
+    # cooordonnÃ©es GPS en radians du 2Ã¨me point (ici, mairie de Limoges)
 
 	req = urllib2.Request("http://api.open-notify.org/iss-now.json")
 	response = urllib2.urlopen(req)
@@ -124,19 +124,20 @@ if __name__ == "__main__":
         latB = deg2rad(float(obj['iss_position']['latitude'])) # Nord
         longB = deg2rad(float(obj['iss_position']['longitude'])) # Est
 
+
         dist = distanceGPS(latA, longA, latB, longB)
 	print("---")
 
-	if int(dist/1000) < radius:
+
+
+	if int(dist/1000) < ring1:
 	    print("YES")
 	    triggered = 1
 	    if emailsend == 0:
 		if gmail_ifsend == 1:
-		    print("SEND EMAIL...")
-
-
+		    print("SEND EMAIL")
 	            try:
-    		        server = smtplib.SMTP_SSL(gmail_server, 465)
+    		        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     		        server.ehlo()
     		        server.login(gmail_user, gmail_password)
     		        server.sendmail(sent_from, to, email_text)
