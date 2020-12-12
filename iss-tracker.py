@@ -134,7 +134,7 @@ if __name__ == "__main__":
 	if int(dist/1000) < float(radius):
 	    print("YES")
 	    triggered = 1
-	    if emailsend == 1:
+	    if float(emailsend) == 1:
 		print("SEND EMAIL")
 
 	        try:
