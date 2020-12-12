@@ -45,7 +45,6 @@ gmail_title = config.get('EMAIL', 'EMAIL_TITLE')
 
 
 radius = config.get('GPS', 'RADIUS')
-print(radius)
 LAT_HOME = config.get('GPS', 'LATITUDE')
 LONG_HOME = config.get('GPS', 'LONGITUDE')
 
@@ -131,7 +130,7 @@ if __name__ == "__main__":
         dist = distanceGPS(latA, longA, latB, longB)
 	print("---")
 
-
+        print(radius)
 
 	if int(dist/1000) < radius:
 	    print("YES")
