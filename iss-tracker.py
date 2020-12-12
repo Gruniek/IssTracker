@@ -3,30 +3,6 @@
 
 # GPS CODE SOURCE = https://www.developpez.net/forums/d1868942/autres-langages/python/contribuez/distance-entre-2-lieux-connus-leurs-coordonnees-gps/#post11657860
 
-##############################################################################
-#  CONFIG                                                                    #
-##############################################################################
-# Server Email
-gmail_server = 'smtp.gmail.com'
-gmail_user = 'EMAIL_SENDER'
-gmail_password = '*******'
-
-# EMail of the client
-gmail_send_email_to = 'Email1'
-gmail_send_email_to_2 = 'Email2'
-
-# Distance trigger (Km)
-radius = 4000
-
-# GPS LOCATION
-LAT_HOME = ''  # in dec : exemple : 20.610353 
-LONG_HOME = '' # in dec : exemple : 20.610353
-
-# Update interval
-interval = 9
-
-##############################################################################
-
 
 """
 Source pour le calcul:
@@ -50,6 +26,27 @@ import numpy as np
 import wave
 import sys
 import smtplib
+
+
+
+config = ConfigParser.ConfigParser()
+config.readfp(open(r'config.ini'))
+
+gmail_ifsend = config.get('EMAIL', 'EMAIL_SEND')
+gmail_server = config.get('EMAIL', 'EMAIL_SERVER')
+gmail_user = config.get('EMAIL', 'EMAIL_USER')
+gmail_password = config.get('EMAIL', 'EMAIL_PASSWORD')
+gmail_send_email_to = config.get('EMAIL', 'EMAIL_1')
+gmail_send_email_to_2 = config.get('EMAIL', 'EMAIL_2')
+gmail_title = config.get('EMAIL', 'EMAIL_TITLE')
+
+
+radius = config.get('GPS', 'RADIUS')
+LAT_HOME = config.get('GPS', 'LATITUDE')
+LONG_HOME = config.get('GPS', 'LONGITUDE')
+
+interval = config.get('OTHER', 'UPDATE_INTERVAL')
+
 
 
 
@@ -132,21 +129,22 @@ if __name__ == "__main__":
 	    print("YES")
 	    triggered = 1
 	    if emailsend == 0:
-		print("SEND EMAIL...")
+		if gmail_ifsend == 1
+		    print("SEND EMAIL...")
 
 
-	        try:
-    		    server = smtplib.SMTP_SSL(gmail_server, 465)
-    		    server.ehlo()
-    		    server.login(gmail_user, gmail_password)
-    		    server.sendmail(sent_from, to, email_text)
-    		    server.close()
+	            try:
+    		        server = smtplib.SMTP_SSL(gmail_server, 465)
+    		        server.ehlo()
+    		        server.login(gmail_user, gmail_password)
+    		        server.sendmail(sent_from, to, email_text)
+    		        server.close()
 
-    	 	    print 'Email sent!'
-	        except:
-    		    print 'Something went wrong...'
+    	 	        print 'Email sent!'
+	            except:
+    		        print 'Something went wrong...'
 
-		emailsend = 1
+		    emailsend = 1
 	else:
 	    print("NO")
 	    triggered = 0
