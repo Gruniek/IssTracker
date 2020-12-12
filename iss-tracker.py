@@ -134,21 +134,20 @@ if __name__ == "__main__":
 	if int(dist/1000) < float(radius):
 	    print("YES")
 	    triggered = 1
-	    if float(emailsend) == 1:
-		print("SEND EMAIL")
+	    if emailsend == 0:
+		if float(gmail_ifsend) == 1:
+		    print("SEND EMAIL")
+	            try:
+    		        server = smtplib.SMTP_SSL(gmail_password, gmail_port)
+    		        server.ehlo()
+    		        server.login(gmail_user, gmail_password)
+    		        server.sendmail(sent_from, to, email_text)
+    		        server.close()
 
-	        try:
-    		    server = smtplib.SMTP_SSL(gmail_password, gmail_port)
-    		    server.ehlo()
-    		    server.login(gmail_user, gmail_password)
-    		    server.sendmail(sent_from, to, email_text)
-    		    server.close()
-
-    	 	    print 'Email sent!'
-	        except:
-    		    print 'Something went wrong...'
-
-		emailsend = 1
+    	 	        print 'Email sent!'
+	            except:
+    		        print 'Something went wrong...'
+		   emailsend = 1
 	else:
 	    print("NO")
 	    triggered = 0
