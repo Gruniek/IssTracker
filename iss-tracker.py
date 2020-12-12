@@ -44,6 +44,7 @@ gmail_title = config.get('EMAIL', 'EMAIL_TITLE')
 
 
 radius = config.get('GPS', 'RADIUS')
+print(radius)
 LAT_HOME = config.get('GPS', 'LATITUDE')
 LONG_HOME = config.get('GPS', 'LONGITUDE')
 
@@ -55,7 +56,7 @@ emailsend = 0
 
 sent_from = gmail_user
 to = [gmail_send_email_to, gmail_send_email_to_2]
-subject = 'ISS arrive !'
+subject = gmail_title
 body = ' '
 
 email_text = """\
@@ -65,18 +66,6 @@ Subject: %s
 
 %s
 """ % (sent_from, ", ".join(to), subject, body)
-
-
-#req = urllib2.Request("http://api.open-notify.org/iss-now.json")
-#response = urllib2.urlopen(req)
-#obj = json.loads(response.read())
-
-#print obj['timestamp']
-#print obj['iss_position']['latitude'], obj['iss_position']['longitude']
-#latbb = obj['iss_position']['latitude']
-#lonbb = obj['iss_position']['longitude']
-
-
 
 
 #############################################################################
