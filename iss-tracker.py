@@ -143,10 +143,10 @@ if __name__ == "__main__":
 
 
 
-	if int(dist/1000) < ring1:
+	if int(dist/1000) < radius:
 	    print("YES")
 	    triggered = 1
-	    if emailsend == 0:
+	    if emailsend == 1:
 		print("SEND EMAIL")
 
 	        try:
@@ -162,7 +162,7 @@ if __name__ == "__main__":
 
 		emailsend = 1
 	else:
-	    print("NON")
+	    print("NO")
 	    triggered = 0
 	    emailsend = 0
 
