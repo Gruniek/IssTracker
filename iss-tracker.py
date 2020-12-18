@@ -23,7 +23,7 @@ import time
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 import wave
 import sys
@@ -47,6 +47,8 @@ LAT_HOME = config.get('GPS', 'LATITUDE')
 LONG_HOME = config.get('GPS', 'LONGITUDE')
 
 interval = config.get('OTHER', 'UPDATE_INTERVAL')
+
+ifrecord = int(config.get('RECORD', 'IF_RECORD'))
 
 triggered = 0
 emailsend = 0
@@ -107,9 +109,6 @@ def distanceGPS(latA, longA, latB, longB):
     return S*RT
 
 #############################################################################
-# LOOP
-#############################################################################
-
 if __name__ == "__main__":
     while True:
         latA = deg2rad(float(LAT_HOME)) # Nord
@@ -134,6 +133,8 @@ if __name__ == "__main__":
 	    triggered = 1
 	    if emailsend == 0:
 		if float(gmail_ifsend) == 1:
+
+		    execfile("record.py")
 		    print("SEND EMAIL")
 	            try:
 			server = smtplib.SMTP_SSL(str(gmail_server), str(gmail_port))
@@ -141,7 +142,6 @@ if __name__ == "__main__":
                         server.login(gmail_user, gmail_password)
                         server.sendmail(sent_from, to, email_text)
                         server.close()
-			
     	 	        print 'Email sended!'
 	            except:
     		        print 'Something went wrong...'
